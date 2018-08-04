@@ -5,8 +5,8 @@ terraform {
 
   backend "s3" {
     encrypt = "true"
-    bucket  = "my-first-terraform-test" # manually created bucket to store your statefile
-    key     = "test/terraform.tfstate"  # state file name
+    bucket  = "my-first-terraform-test" # manually created bucket to store your statefile, this must be gloablly unique
+    key     = "test/terraform.tfstate"  # state file name (including it's path)
     region  = "us-west-2"
   }
 }
