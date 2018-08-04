@@ -1,0 +1,9 @@
+**/.terraform/*
+terraform.tfvars
+terraform.tfstate*
+*.pem
+plan.out
+**/.idea/*
+crash.log
+*.sln
+*.DS_STORE
