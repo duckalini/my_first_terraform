@@ -20,5 +20,6 @@ provider "aws" {
   allowed_account_ids = ["123456789"]   # You aws account ID needs to go here.
 }
 
-# Your individual environment config starts here - see other environments for these components.
-
+# Your individual environment config starts here - see other environments for these components. It can include simple Terraform resources or modules
+# Modules are a reusable collection of resources bundled together with inputs and / or outputs to help configure them for your environment needs
+# We have created couple of modules in this repo.
