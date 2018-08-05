@@ -2,6 +2,6 @@
 # Find out more about them at https://www.terraform.io/docs/configuration/locals.html)
 
 locals {
-  environment            = "test"
-  account_id             = "345532866871"
+  environment = "test"
+  account_id  = "345532866871"
 }
