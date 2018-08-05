@@ -1,0 +1,21 @@
+# Initial terraform set up required -  for information on this see `101 get started` environment
+
+terraform {
+  required_version = ">= 0.11.7"
+
+  backend "s3" {
+    encrypt = "true"
+    bucket  = "my-first-terraform-test"
+    key     = "test/terraform.tfstate"
+    region  = "us-west-2"
+  }
+}
+
+provider "aws" {
+  version             = "1.30.0"
+  region              = "us-west-2"
+  allowed_account_ids = ["${local.account_id}"]
+}
+
+# Your individual environment config starts here
+
