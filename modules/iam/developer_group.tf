@@ -1,13 +1,12 @@
 // Developer group set up
-
-resource "aws_iam_group" "developers" {
+resource "aws_iam_group" "developer" {
   name = "Developer"
 }
 
-resource "aws_iam_policy" "developer_access" {
-  name = "DeveloperAccess"
+resource "aws_iam_policy" "dev_access" {
+  name        = "DeveloperAccess"
   description = "Developer AWS access rights"
-  policy = "${data.aws_iam_policy_document.developer_access.json}"
+  policy      = "${data.aws_iam_policy_document.dev_access.json}"
 }
 
 // Allow developer group to assume the developer role
@@ -37,7 +36,7 @@ resource "aws_iam_role" "dev" {
 }
 
 data "aws_iam_policy_document" "dev_access" {
-    statement {
+  statement {
     actions = [
       "s3:*",
       "sqs:*",
@@ -52,9 +51,9 @@ data "aws_iam_policy_document" "dev_access" {
 }
 
 resource "aws_iam_policy_attachment" "dev_attach" {
-  name       = "dev_attach"
-  groups     = ["${aws_iam_group.developers.name}"]
-  policy_arn = "${aws_iam_policy.developer_access.arn}"
+  name       = "dev_attachment"
+  groups     = ["${aws_iam_group.developer.name}"]
+  policy_arn = "${aws_iam_policy.dev_access.arn}"
 }
 
 // Developer role trust policy - which IAM groups / AWS accounts can assume the developer role

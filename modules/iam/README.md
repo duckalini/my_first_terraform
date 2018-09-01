@@ -1,6 +1,6 @@
 # IAM users
 
-IAM users need to be created manually via the console and then added to the appropriate groups.
+[IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) need to be created manually via the console and then added to the appropriate groups.
 
 (Do we want to Terraform adding them to groups? We can, that'd be a pretty easy addition... may add it later)
 

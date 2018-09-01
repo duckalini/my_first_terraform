@@ -1,13 +1,13 @@
 // Admin group set up
 
-resource "aws_iam_group" "admins" {
+resource "aws_iam_group" "admin" {
   name = "Admin"
 }
 
 resource "aws_iam_policy" "admin_access" {
-  name = "AdminAccess"
+  name        = "AdminAccess"
   description = "Full AWS access rights"
-  policy = "${data.aws_iam_policy_document.admin_access.json}"
+  policy      = "${data.aws_iam_policy_document.admin_access.json}"
 }
 
 // Allow admin group to assume all roles
@@ -38,7 +38,7 @@ resource "aws_iam_role" "admin" {
 }
 
 data "aws_iam_policy_document" "admin_access" {
-    statement {
+  statement {
     actions = [
       "*",
     ]
@@ -50,8 +50,8 @@ data "aws_iam_policy_document" "admin_access" {
 }
 
 resource "aws_iam_policy_attachment" "admin_attach" {
-  name       = "admin_attach"
-  groups     = ["${aws_iam_group.admins.name}"]
+  name       = "admin_attachment"
+  groups     = ["${aws_iam_group.admin.name}"]
   policy_arn = "${aws_iam_policy.admin_access.arn}"
 }
 
