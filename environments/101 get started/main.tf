@@ -3,7 +3,7 @@
 terraform {
   required_version = ">= 0.11.7" # Install terraform then check your version number (you can use brew) or https://www.terraform.io/downloads.html
 
-  # every IC needs to have this version of terraform installed
+  # everyone who uses this terraform project needs this version installed
 
   backend "s3" {
     encrypt = "true"
@@ -20,7 +20,7 @@ provider "aws" {
   # Update this regularly to support new AWS services, you'll need to run terraform init after you update it
   region = "us-west-2" # Your default aws region
 
-  allowed_account_ids = ["123456789"] # You aws account ID needs to go here.
+  allowed_account_ids = ["123456789"] # Your aws account ID needs to go here.
 }
 
 # Your individual environment config starts here - see other environments for these components. It can include simple Terraform resources or modules

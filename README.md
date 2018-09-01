@@ -43,6 +43,8 @@ Use brew or [follow instructions here](https://www.terraform.io/downloads.html).
 
 `brew install terraform`  
 
+Ensure you get the latest version of terraform.  
+
 Your terraform version is set in your `main.tf` environment file. Each individual contributor working on your terraform project will need to use that version.  
 If anyone updates their version and pushes a change, all contributors will need to update their local terraform version to match.
 
@@ -81,7 +83,7 @@ TODO find some way to talk about aws-vault roles, either here or in a further RE
 
 ## Use terraform plan and apply
 
-TODO tidy this up, and explain how to use the `101` folder to do this (or maybe move this section to `101`?)
+TODO tidy this up, and explain how to use the `101` folder to do this (or maybe move this section to `101`?) Explain tf.state files.
 
 Terraform uses a state file to identify differences between what's in your code and what's existing in AWS. Read more detail about them [on the terraform site](https://www.terraform.io/docs/state/purpose.html).  
 
@@ -107,7 +109,7 @@ rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
 ```
 
-This means you're ready to run a plan! If you don't any modules or resources defined (i.e. you only have the first 20 lines of your `main.tf` file defined) this will have no impact on your AWS envionment.
+This means you're ready to run a plan! If you don't have any modules or resources defined (i.e. you only have the first 20 lines of your `main.tf` file defined) this will have no impact on your AWS environment.
 
 A plan will tell you everything that terraform wants to change in your environment. Usually it will end with a line that says `Plan: 2 to add, 1 to change, 1 to destroy` depending on what you've altered.  
 It will also print out every single change it will make in full.  
