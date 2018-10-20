@@ -7,7 +7,6 @@ locals {
 
 data "aws_caller_identity" "current" {}
 
-
 variable "account_id" {
   default = "867697617212"
 }
