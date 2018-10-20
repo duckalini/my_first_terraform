@@ -36,3 +36,6 @@ resource "aws_iam_account_password_policy" "password_policy" {
 // Create all the IAM groups with iam-admin module
 
 // Create all the IAM roles with iam-all-accounts module
+module "iam-roles" {
+  source = "../../modules/iam-all-accounts"
+}
