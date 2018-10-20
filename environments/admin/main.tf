@@ -14,7 +14,12 @@ terraform {
 provider "aws" {
   version             = "1.30.0"
   region              = "us-west-2"
-  allowed_account_ids = ["${local.admin_account_id}"]
+  allowed_account_ids = ["${var.account_id}"]
+
+//  assume_role {
+//    role_arn     = "arn:aws:iam:867697617212:role/terraform"
+//    session_name = "terraform"
+//  }
 }
 
 // Configure the basic IAM security settings on your main account
@@ -27,3 +32,7 @@ resource "aws_iam_account_password_policy" "password_policy" {
   require_uppercase_characters   = true
   allow_users_to_change_password = true
 }
+
+// Create all the IAM groups with iam-admin module
+
+// Create all the IAM roles with iam-all-accounts module
