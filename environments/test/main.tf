@@ -23,3 +23,6 @@ provider "aws" {
 
 # TODO Import the IAM module to create admin & dev user roles and groups
 
+module "iam-roles" {
+  source = "../../modules/iam-all-accounts"
+}
