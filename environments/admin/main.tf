@@ -41,6 +41,10 @@ module "iam-groups" {
     "alix.klingenberg",
     "duck.lawn",
   ]
+
+  developer_users = [
+    "duck.lawn",
+  ]
 }
 
 // Create all the IAM roles with iam-all-accounts module

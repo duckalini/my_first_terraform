@@ -6,12 +6,14 @@ resource "aws_iam_group_policy" "assume_role" {
 
 data "aws_iam_policy_document" "cross_account_assume_role" {
   statement {
+    effect  = "Allow"
+
     actions = [
       "sts:AssumeRole",
     ]
 
     resources = [
-      "${formatlist("arn:aws:iam:%s:role/%s", var.account, var.roles)}",
+      "${formatlist("arn:aws:iam::%s:role/%s", var.account, var.roles)}",
     ]
   }
 }

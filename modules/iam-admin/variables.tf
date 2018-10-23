@@ -4,31 +4,6 @@ locals {
   test_account_id  = "345532866871"
   prod_account_id  = ""
 
-  // Decide which roles your admin users will have access to
-  admin_roles = [
-    "admin",
-    "readonly",
-    "terraform",
-  ]
-
-  // Decide which accounts your admin users will have access to
-  admin_accounts = [
-    "${local.admin_account_id}",
-    "${local.test_account_id}",
-    "${local.prod_account_id}",
-  ]
-
-  // Decide which roles your dev users will have access to
-  developer_roles = [
-    "developer",
-    "readonly",
-  ]
-
-  // Decide which accounts your dev users will have access to
-  developer_accounts = [
-    "${local.test_account_id}",
-  ]
-
   // A list of all users, add any additional user groups in to this list
   all_users = "${concat(var.admin_users, var.developer_users)}"
 }
