@@ -16,10 +16,10 @@ provider "aws" {
   region              = "us-west-2"
   allowed_account_ids = ["${var.account_id}"]
 
-    assume_role {
-      role_arn     = "arn:aws:iam::867697617212:role/terraform"
-      session_name = "terraform"
-    }
+  assume_role {
+    role_arn     = "arn:aws:iam::867697617212:role/terraform"
+    session_name = "terraform"
+  }
 }
 
 // Configure the basic IAM security settings on your main account

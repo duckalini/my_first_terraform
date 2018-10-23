@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "readonly" {
   name               = "readonly"
   assume_role_policy = "${data.aws_iam_policy_document.readonly_assume_policy.json}"
@@ -6,7 +5,8 @@ resource "aws_iam_role" "readonly" {
 
 data "aws_iam_policy_document" "readonly_assume_policy" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
+
     actions = [
       "sts:AssumeRole",
     ]
@@ -16,7 +16,8 @@ data "aws_iam_policy_document" "readonly_assume_policy" {
         "arn:aws:iam::${local.admin_account_id}:root",
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
       ]
-      type        = "AWS"
+
+      type = "AWS"
     }
 
     condition {
@@ -35,8 +36,9 @@ resource "aws_iam_policy" "readonly_role_policy" {
 
 data "aws_iam_policy_document" "readonly_role_policy" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+
+    actions = [
       "s3:Get*",
       "s3:List*",
       "lambda:Get*",
@@ -49,6 +51,7 @@ data "aws_iam_policy_document" "readonly_role_policy" {
       "dynamo:Get*",
       "dynamo:List*",
     ]
+
     resources = ["*"]
   }
 }
@@ -57,4 +60,3 @@ resource "aws_iam_role_policy_attachment" "readonly_role_policy" {
   policy_arn = "${aws_iam_policy.readonly_role_policy.arn}"
   role       = "${aws_iam_role.readonly.name}"
 }
-

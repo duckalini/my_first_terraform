@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "terraform" {
   name               = "terraform"
   assume_role_policy = "${data.aws_iam_policy_document.terraform_assume_policy.json}"
@@ -6,7 +5,8 @@ resource "aws_iam_role" "terraform" {
 
 data "aws_iam_policy_document" "terraform_assume_policy" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
+
     actions = [
       "sts:AssumeRole",
     ]
@@ -16,7 +16,8 @@ data "aws_iam_policy_document" "terraform_assume_policy" {
         "arn:aws:iam::${local.admin_account_id}:root",
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
       ]
-      type        = "AWS"
+
+      type = "AWS"
     }
 
     condition {

@@ -11,9 +11,9 @@ terraform {
   }
 
   assume_role {
-      role_arn     = "arn:aws:iam::867697617212:role/terraform"
-      session_name = "terraform"
-    }
+    role_arn     = "arn:aws:iam::867697617212:role/terraform"
+    session_name = "terraform"
+  }
 }
 
 provider "aws" {

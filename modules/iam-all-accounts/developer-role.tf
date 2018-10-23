@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "developer" {
   name               = "developer"
   assume_role_policy = "${data.aws_iam_policy_document.developer_assume_policy.json}"
@@ -6,13 +5,15 @@ resource "aws_iam_role" "developer" {
 
 data "aws_iam_policy_document" "developer_assume_policy" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
+
     actions = [
       "sts:AssumeRole",
     ]
 
     principals {
-      type        = "AWS"
+      type = "AWS"
+
       identifiers = [
         "arn:aws:iam::${local.admin_account_id}:root",
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
@@ -45,5 +46,4 @@ data "aws_iam_policy_document" "developer_assume_policy" {
 //  policy_arn = "${aws_iam_policy.developer_role_policy.arn}"
 //  role       = "${aws_iam_role.developer.name}"
 //}
-
 
