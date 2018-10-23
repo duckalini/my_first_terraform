@@ -5,22 +5,23 @@ resource "aws_iam_role" "admin" {
 
 data "aws_iam_policy_document" "admin_assume_policy" {
   statement {
+    effect  = "Allow"
     actions = [
       "sts:AssumeRole",
     ]
 
     principals {
       identifiers = [
-        "arn:aws:iam:${local.admin_account_id}:root",
-        "arn:aws:iam:${data.aws_caller_identity.current.account_id}:root",
+        "arn:aws:iam::${local.admin_account_id}:root",
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
       ]
       type        = "AWS"
     }
 
     condition {
       test     = "Bool"
-      values   = ["aws:MultiFactorAuthPresent"]
-      variable = "true"
+      variable = "aws:MultiFactorAuthPresent"
+      values   = ["true"]
     }
   }
 }
