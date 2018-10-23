@@ -9,6 +9,11 @@ terraform {
     key     = "test/terraform.tfstate"
     region  = "us-west-2"
   }
+
+  assume_role {
+      role_arn     = "arn:aws:iam::867697617212:role/terraform"
+      session_name = "terraform"
+    }
 }
 
 provider "aws" {
