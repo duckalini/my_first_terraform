@@ -16,10 +16,10 @@ provider "aws" {
   region              = "us-west-2"
   allowed_account_ids = ["${var.account_id}"]
 
-//  assume_role {
-//    role_arn     = "arn:aws:iam:867697617212:role/terraform"
-//    session_name = "terraform"
-//  }
+  //  assume_role {
+  //    role_arn     = "arn:aws:iam:867697617212:role/terraform"
+  //    session_name = "terraform"
+  //  }
 }
 
 // Configure the basic IAM security settings on your main account
@@ -34,6 +34,14 @@ resource "aws_iam_account_password_policy" "password_policy" {
 }
 
 // Create all the IAM groups with iam-admin module
+module "iam-groups" {
+  source = "../../modules/iam-admin"
+
+  admin_users = [
+    "alix.klingenberg",
+    "duck.lawn",
+  ]
+}
 
 // Create all the IAM roles with iam-all-accounts module
 module "iam-roles" {

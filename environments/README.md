@@ -4,4 +4,3 @@ The `101 getting started` environment shows you all baseline configuration requi
 
 
 # To get your terraform up and running
-
