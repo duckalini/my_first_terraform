@@ -9,21 +9,23 @@ terraform {
     key     = "test/terraform.tfstate"
     region  = "us-west-2"
   }
-
-  assume_role {
-    role_arn     = "arn:aws:iam::867697617212:role/terraform"
-    session_name = "terraform"
-  }
 }
 
 provider "aws" {
-  version             = "1.30.0"
+  version             = "1.40.0"
   region              = "us-west-2"
   allowed_account_ids = ["${local.account_id}"]
 }
 
 # Your individual environment config starts here - it can include simple Terraform resources or modules
 # Modules are a reusable collection of resources bundled together with inputs and / or outputs to help configure them for your environment needs
+
+// Configure the account with starting tools
+module "account-config" {
+  source      = "../../modules/account-config"
+  environment = "test"
+  project     = "my-first-terraform"
+}
 
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
