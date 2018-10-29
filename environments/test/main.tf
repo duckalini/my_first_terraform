@@ -20,6 +20,13 @@ provider "aws" {
 # Your individual environment config starts here - it can include simple Terraform resources or modules
 # Modules are a reusable collection of resources bundled together with inputs and / or outputs to help configure them for your environment needs
 
+// Configure the account with starting tools
+module "account-config" {
+  source      = "../../modules/account-config"
+  environment = "test"
+  project     = "my-first-terraform"
+}
+
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
 }

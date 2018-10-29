@@ -42,6 +42,13 @@ module "iam-groups" {
   ]
 }
 
+// Configure the account with starting tools
+module "account-config" {
+  source      = "../../modules/account-config"
+  environment = "admin"
+  project     = "my-first-terraform"
+}
+
 // Create all the IAM roles with iam-all-accounts module
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
