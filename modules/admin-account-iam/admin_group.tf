@@ -11,7 +11,7 @@ resource "aws_iam_group_membership" "admin_users" {
 
 // cross account role assumption set up, one module per account
 module "test_account_admin_group_assume_role_access" {
-  source      = "../../modules/cross-account-role-assumption"
+  source      = "./cross-account-role-assumption"
   environment = "test"
   account     = "${local.test_account_id}"
   group_id    = "${aws_iam_group.admin.id}"
@@ -24,7 +24,7 @@ module "test_account_admin_group_assume_role_access" {
 }
 
 module "admin_account_admin_group_assume_role_access" {
-  source      = "../../modules/cross-account-role-assumption"
+  source      = "./cross-account-role-assumption"
   environment = "admin"
   account     = "${local.admin_account_id}"
   group_id    = "${aws_iam_group.admin.id}"
