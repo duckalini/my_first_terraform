@@ -15,8 +15,9 @@ resource "aws_s3_bucket" "cloudtrail_logs" {
     }
   }
 
+  // Policy sourced from https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create-s3-bucket-policy-for-cloudtrail.html
   policy = <<POLICY
-  {
+{
       "Version": "2012-10-17",
       "Statement": [
           {
@@ -24,18 +25,18 @@ resource "aws_s3_bucket" "cloudtrail_logs" {
               "Effect": "Allow",
               "Principal": {"Service": "cloudtrail.amazonaws.com"},
               "Action": "s3:GetBucketAcl",
-              "Resource": "arn:aws:s3:::myBucketName"
+              "Resource": "arn:aws:s3:::${var.project}-${var.environment}-cloudtrail"
           },
           {
               "Sid": "AWSCloudTrailWrite20150319",
               "Effect": "Allow",
               "Principal": {"Service": "cloudtrail.amazonaws.com"},
               "Action": "s3:PutObject",
-              "Resource": "arn:aws:s3:::myBucketName/[optional prefix]/AWSLogs/myAccountID/*",
+              "Resource": "arn:aws:s3:::${var.project}-${var.environment}-cloudtrail/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
               "Condition": {"StringEquals": {"s3:x-amz-acl": "bucket-owner-full-control"}}
           }
       ]
-  }
+}
 POLICY
 }
 
