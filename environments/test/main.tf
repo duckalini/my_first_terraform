@@ -30,3 +30,9 @@ module "account-config" {
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
 }
+
+module "s3" {
+  source = "../../modules/s3"
+
+  environment = "${local.environment}"
+}
