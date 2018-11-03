@@ -1,13 +1,3 @@
-resource "aws_sns_topic" "slack_notification" {
-  name = "slack_notification"
-}
-
-resource "aws_sns_topic_subscription" "sns_notify_slack" {
-  topic_arn = "${aws_sns_topic.slack_notification.arn}"
-  protocol  = "lambda"
-  endpoint  = "${aws_lambda_function.notify_slack.0.arn}"
-}
-
 resource "aws_lambda_permission" "sns_notify_slack" {
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
