@@ -61,5 +61,5 @@ module "slack" {
   slack_emoji          = ":yells:"
   slack_username       = "AWS Cloud Bot"
 
-  slack_webhook_url_ssm_path    = "${local.environment}/lambda/slack_webhook_url"
+  slack_webhook_url_ssm_path    = "/${local.environment}/lambda/slack_webhook_url"
 }

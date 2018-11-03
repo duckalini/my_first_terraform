@@ -17,9 +17,9 @@ def decrypt(encrypted_url):
 def fetch_parameter(parameter_path):
     try:
         ssm = boto3.client('ssm')
-        parameter = ssm.get_parameters_by_path(Name=parameter_path, WithDecryption=True)['Parameter']
-        value = parameter['Value']
-        return parameter
+        parameters = ssm.get_parameter(Name=parameter_path, WithDecryption=True)['Parameter']
+        value = parameters['Value']
+        return value
     except Exception:
         logging.exception("Failed to fetch Slack Webhook from parameter store")
 
@@ -56,6 +56,7 @@ def notify_slack(message, region):
     slack_url = os.environ['SLACK_WEBHOOK_URL']
     if not slack_url.startswith("http"):
         slack_url = fetch_parameter(slack_url)
+        print(slack_url)
         #slack_url = decrypt(slack_url)
 
     slack_channel = os.environ['SLACK_CHANNEL']

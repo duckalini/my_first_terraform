@@ -36,9 +36,11 @@ data "aws_iam_policy_document" "lambda_basic" {
     ]
 
     resources = [
-      "arn:aws:ssm:us-west-2:${data.aws_caller_identity.current.account_id}:parameter/${var.slack_webhook_url_ssm_path}"
+      "arn:aws:ssm:us-west-2:${data.aws_caller_identity.current.account_id}:parameter${var.slack_webhook_url_ssm_path}"
     ]
   }
+
+  // need to add KMS decrypt permissions
 }
 
 resource "aws_iam_role" "slack_lambda" {
