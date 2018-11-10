@@ -13,7 +13,7 @@ terraform {
 provider "aws" {
   version             = "1.40.0"
   region              = "us-west-2"
-  allowed_account_ids = ["${local.account_id}"]
+  allowed_account_ids = ["${var.test_account_id}"]
 }
 
 # Your individual environment config starts here - it can include simple Terraform resources or modules
