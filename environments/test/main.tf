@@ -20,7 +20,7 @@ provider "aws" {
 
 // Configure the account with starting tools
 module "account-config" {
-  source      = "../../modules/account-config"
+  source      = "../../modules/cloudtrail"
   environment = "test"
   project     = "my-first-terraform"
 }

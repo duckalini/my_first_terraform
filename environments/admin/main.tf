@@ -44,7 +44,7 @@ module "iam-groups" {
 
 // Configure the account with starting tools
 module "account-config" {
-  source      = "../../modules/account-config"
+  source      = "../../modules/cloudtrail"
   environment = "admin"
   project     = "my-first-terraform"
 }
