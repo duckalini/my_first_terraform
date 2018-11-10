@@ -25,14 +25,6 @@ You will need `Programmatic access` only for now. When you get to the Set Permis
 
 Save your password to your password manager of choice, and then log out of the root account. Log back in using your new IAM user and [add MFA following these instructions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html).
 
-## S3 bucket creation
-
-Go to S3 and create a new bucket, this will be used to manage your terraform state file (how terraform tracks what code has been applied to your environment).
-
-TODO - some more detail and photos on the S3 bucket settings required.
-
-![State file bucket creation](../../images/create_s3_bucket.png)  
-
 # Installing
 
 Things you need before you go read `101 getting started`
@@ -80,6 +72,10 @@ Enter Secret Access Key:
 ```
 
 TODO find some way to talk about aws-vault roles, either here or in a further README.
+
+## Install and set up terraform landscape
+
+[Terraform landscape](https://github.com/coinbase/terraform-landscape) cleans up the output of a terraform plan.
 
 ## Use terraform plan and apply
 

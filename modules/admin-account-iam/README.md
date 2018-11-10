@@ -1,6 +1,6 @@
 **IAM best Practice**
 
-Set up a separate AWS account to manage IAM users.
+Set up a separate AWS account to manage IAM users. [This article](https://hackernoon.com/terraform-with-aws-assume-role-21567505ea98) does a good job of explaining why (only we call the ops account "admin")
 
 Each user only has permissions to:
 * Change their password

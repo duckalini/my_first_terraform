@@ -1,5 +1,4 @@
 # Initial terraform set up required -  for information on this see `101 get started` environment
-
 terraform {
   required_version = ">= 0.11.7"
 
@@ -14,19 +13,20 @@ terraform {
 provider "aws" {
   version             = "1.40.0"
   region              = "us-west-2"
-  allowed_account_ids = ["${local.account_id}"]
+  allowed_account_ids = ["${var.test_account_id}"]
 }
 
 # Your individual environment config starts here - it can include simple Terraform resources or modules
 # Modules are a reusable collection of resources bundled together with inputs and / or outputs to help configure them for your environment needs
 
-// Configure the account with starting tools
-module "account-config" {
-  source      = "../../modules/account-config"
+// Configure cloudtrail to audit infrastructure changes
+module "cloudtrail" {
+  source      = "../../modules/cloudtrail"
   environment = "test"
   project     = "my-first-terraform"
 }
 
+// Create all the required IAM roles
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
 }

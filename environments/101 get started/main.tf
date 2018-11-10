@@ -7,7 +7,7 @@ terraform {
 
   backend "s3" {
     encrypt = "true"
-    bucket  = "my-first-terraform-test" # A manually created bucket to store your statefile, it must be gloablly unique and in your AWS account
+    bucket  = "my-first-terraform-test" # A bucket to store your statefile, it must be gloablly unique and in your AWS account. This naming convention is ${project-name}-${environment-name}
     key     = "test/terraform.tfstate"  # Your state file name within S3, give it a useful path as you might have multiple of these per AWS account
     region  = "us-west-2"
   }
