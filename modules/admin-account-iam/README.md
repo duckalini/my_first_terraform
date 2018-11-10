@@ -2,6 +2,12 @@
 
 ## Purpose
 
+This module adds IAM users to user groups based on their roles. It also defines which user groups can assume roles in each account.
+
+IAM users should be created via the console in the Admin account and then added to the user groups defined in these input variables. Each user group is defined in this module, and the roles they can access are added.
+
+## Why
+
 Set up a separate AWS account to manage IAM users - this repo calls this account Admin. 
 [This article](https://hackernoon.com/terraform-with-aws-assume-role-21567505ea98) does a good job of explaining why (only we call the ops account "admin")
 
@@ -13,12 +19,6 @@ Each user only has permissions to:
 Further permissions are added to a role using the [iam-all-accounts](https://github.com/duckalini/my_first_terraform/tree/master/modules/iam-all-accounts) module. There are admin roles with full AWS access, developer roles with read access to Dynamo and S3, and roles for machines. Each role has an assume role policy which specifies who (or what) is allow to assume that role and the associated permissions. All of these roles should exist in all of your AWS accounts - a separate terraform module will set this up.
 
 Assume role policies are two way, the role specifies that the Admin account can delegate access to that role. 
-
-
-## How
-
-IAM users should be created via the console in the Admin account and can be added to user groups. Each user group is defined in this module, and the roles they can access are added. 
-, and then this module should be used to assign them to user groups as needed.
 
 ## Usage
 
