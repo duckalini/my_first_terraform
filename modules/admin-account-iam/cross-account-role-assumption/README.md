@@ -9,7 +9,7 @@ This will list off any inputs that are required and whether or not they have a d
 
 | Variable name | Description | Default Y/N | Default value|
 |---------------|-------------|-------------|--------------|
-| environment | Name of the environment the group will be assuming roles in this should be kept short | N/A | |
+| environment | Name of the environment the group will be assuming roles in this should be kept short | N | |
 | account | The AWS account ID of the environment the group will be assuming roles in to | N | |
 | group_id | The ID of the IAM group | N | |
 | roles | A list of role names that the group is allowed to assume | N | |
