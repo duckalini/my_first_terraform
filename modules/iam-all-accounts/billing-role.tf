@@ -53,6 +53,10 @@ data "aws_iam_policy_document" "finance_assume_role_policy" {
     condition = {
       test     = "Bool"
       variable = "aws:MultiFactorAuthPresent"
-      values   = ["true"]
+
+      values = [
+        "true",
+      ]
     }
   }
+}

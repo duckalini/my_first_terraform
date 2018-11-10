@@ -1,5 +1,4 @@
 # Initial terraform set up required -  for information on this see `101 get started` environment
-
 terraform {
   required_version = ">= 0.11.7"
 
@@ -42,14 +41,14 @@ module "iam-groups" {
   ]
 }
 
-// Configure the account with starting tools
-module "account-config" {
+// Configure cloudtrail to audit infrastructure changes
+module "cloudtrail" {
   source      = "../../modules/cloudtrail"
   environment = "admin"
   project     = "my-first-terraform"
 }
 
-// Create all the IAM roles with iam-all-accounts module
+// Create all the required IAM roles for users
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
 }
