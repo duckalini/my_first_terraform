@@ -19,13 +19,10 @@ Each module should have the following sections laid out in a README file.
 ### Purpose
 This is a short description of what the modules achieves and why that is useful.
 
-### How
-This section will cover off any complicated steps that the code might be doing, and is optional.
-
 ### Usage
 This will list off any inputs that are required and whether or not they have a default variable. 
 
 | Variable name | Description | Default Y/N | Default value|
 |---------------|-------------|-------------|--------------|
-| environment | Name of your environment, this should be kept short | N/A | |
+| environment | Name of your environment, this should be kept short | N | |
 |  region | AWS region your resources should be created in  | Y | us-west-2 |
