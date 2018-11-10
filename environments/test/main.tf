@@ -1,5 +1,3 @@
-# Initial terraform set up required -  for information on this see `101 get started` environment
-
 terraform {
   required_version = ">= 0.11.7"
 
@@ -14,7 +12,7 @@ terraform {
 provider "aws" {
   version             = "1.40.0"
   region              = "us-west-2"
-  allowed_account_ids = ["${local.account_id}"]
+  allowed_account_ids = ["123456789"]
 }
 
 # Your individual environment config starts here - it can include simple Terraform resources or modules

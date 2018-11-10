@@ -1,4 +1,6 @@
-This module creates all the assumeable roles your users will need in each of your accounts.
+# IAM roles
+
+This module creates all the assume-able roles your users will need in each of your accounts.
 
 **Admin role** - full admin permissions for the associated aws account  
 **Developer role** - least privilege permissions, perhaps some read only access to S3  
