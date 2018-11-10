@@ -1,16 +1,20 @@
 # my-first-terraform  
 
 This project will help show you how to set up terraform for your aws environment in a scaleable and maintainable way.  
+It was presented at Purplecon 2018, on Thursday November 15th. Hopefully there will be a recording soon that we can link to.
 
-TODO insert information about conference where this will be presented, hopefully with a link to the recording.
+This project assumes that you know what terraform is and why you should use it, but nothing else. The talk referenced above explains a little bit about:
+* The benefits of using terraform for your infrastructure as code
+* How terraform tracks what has been deployed to AWS using a remote statefile
+* How terraform uses a `plan` to run a diff between your code and your AWS account, and how you use that to `apply` changes.
+The slides for this talk have been published <link tbc>.
 
-It assumes that you know what terraform is and why you should use it, but nothing else. 
 There are many references to the terraform documentation throughout this project, but most of the basics will be explained as they are used.
 Start with the `environments` folder, which contains three separate environments:
 
 1. 101 get started
 2. test
-3. production
+3. admin
 
 These should be read in order, as concepts will be built upon as we go.  
 
@@ -19,13 +23,14 @@ Some configuration will need to be done to make this project work for your own e
 
 # Manual configuration of your AWS account required
 
-## User set up
-Use your root account to create an IAM user with admin permissions. You can follow the [instructions provided by AWS to do this](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).
-You will need `Programmatic access` only for now. When you get to the Set Permissions page, choose Attach existing policies to user directly and use the Administrator permissions policy. We will dial this down later, using terraform. You don't need to set a permissions boundary.
+## Initial user set up on AWS
+Use your root account to create an IAM user with admin permissions. You can follow the [instructions provided by AWS to do this](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).  
+
+Your user will need `Programmatic access` only for now. When you get to the Set Permissions page, choose `Attach existing policies to user directly` and use the `Administrator` permissions policy. We will terraform this later. You don't need to set a permissions boundary.
 
 Save your password to your password manager of choice, and then log out of the root account. Log back in using your new IAM user and [add MFA following these instructions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html).
 
-# Installing
+# Set up local computer for development
 
 Things you need before you go read `101 getting started`
 
@@ -37,7 +42,7 @@ Use brew or [follow instructions here](https://www.terraform.io/downloads.html).
 
 Ensure you get the latest version of terraform.  
 
-Your terraform version is set in your `main.tf` environment file. Each individual contributor working on your terraform project will need to use that version.  
+Your terraform version is set in your `main.tf` file for each environment. Each individual contributor working on your terraform project will need to use that version locally.  
 If anyone updates their version and pushes a change, all contributors will need to update their local terraform version to match.
 
 Downgrading your terraform version on macOS via brew is non trivial, so try get everyone installing and updating at the same time.
@@ -45,45 +50,57 @@ Downgrading your terraform version on macOS via brew is non trivial, so try get 
 
 ## Install and set up aws-vault
 
-TODO pretty up these aws-vault instructions and explain why it's useful
-
-[aws-vault](https://github.com/99designs/aws-vault) is a project that allows you to use MFA while using the aws cli. This lets you have mfa when deploying terraform changes.
+[aws-vault](https://github.com/99designs/aws-vault) is a project that allows you to assume roles and use MFA when using the aws cli or applying terraform changes. 
 
 Install this using the instructions on their project, or the following on MacOS: 
 
 `brew cask install aws-vault`  
 
-Create a config file which contains the following code. Replace the number in `mfa_serial` with your AWS account ID and `duck.lawn` with your IAM user name.  
+Log in to AWS and go to your IAM user. Generate an access key [following these instructions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey).
 
-TODO explain each part of this
-```
-[profile mft]
-region=us-west-2
-mfa_serial = arn:aws:iam::123456789012:mfa/duck.lawn
-```
-
-TODO generate access tokens
-
-Then add your aws access tokens to the keychain using these commands:  
+Then add your new access key ID and secret to the keychain (via aws-vault) using these commands:  
 ```
 aws-vault add mft
 Enter Acces Key ID:  
 Enter Secret Access Key:  
 ```
 
-TODO find some way to talk about aws-vault roles, either here or in a further README.
+Update your config file `~/.aws/config` to add your MFA details. Replace the `123456789` in **mfa_serial** with your AWS account ID and `duck.lawn` with your IAM user name.  
 
-## Install and set up terraform landscape
+```
+[profile mft]
+region=us-west-2
+mfa_serial = arn:aws:iam::123456789012:mfa/duck.lawn
+```
 
-[Terraform landscape](https://github.com/coinbase/terraform-landscape) cleans up the output of a terraform plan.
+To assume roles, you'll need to add more profiles to your config file. This specifies the **source_profile** (ie. access keys used) to assume the role and the **role_arn** of the role you will be assuming.  
+It'll look something like this when you're done...
+```
+[profile mft]
+region=us-west-2
+mfa_serial = arn:aws:iam::123456789012:mfa/duck.lawn
 
-## Use terraform plan and apply
+[profile mft-admin-admin]
+region=us-west-2
+source_profile=mft
+mfa_serial=arn:aws:iam::123456789012:mfa/duck.lawn
+role_arn=arn:aws:iam::123456789012:role/admin
 
-TODO tidy this up, and explain how to use the `101` folder to do this (or maybe move this section to `101`?) Explain tf.state files.
+[profile mft-test-admin]
+region=us-west-2
+source_profile=mft
+mfa_serial=arn:aws:iam::123456789012:mfa/duck.lawn
+role_arn=arn:aws:iam::987654321:role/admin
+```
+
+
+## Use terraform 
 
 Terraform uses a state file to identify differences between what's in your code and what's existing in AWS. Read more detail about them [on the terraform site](https://www.terraform.io/docs/state/purpose.html).  
 
-To start using terraform, you need to run `aws-vault exec mft -- terraform init`. Full details found over on [terraform](https://www.terraform.io/docs/commands/init.html).  
+### terraform init 
+
+To start using terraform, you need to run `aws-vault exec mft-admin-admin -- terraform init` while in your environment directory. Full details found over on [terraform](https://www.terraform.io/docs/commands/init.html).  
 The TLDR version is that this ensures you have access to your remote state file, have the correct aws provider version and all your modules are downloaded / "compiled".
 
 Once this has completed (if you have no modules to initialise) you will see something like this:
@@ -104,6 +121,8 @@ If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
 ```
+
+### terraform plan
 
 This means you're ready to run a plan! If you don't have any modules or resources defined (i.e. you only have the first 20 lines of your `main.tf` file defined) this will have no impact on your AWS environment.
 
@@ -129,6 +148,8 @@ actions need to be performed.
 
 Because our infrastructure only has the provider versions and the state file lcoation declared, there's no changes that will be made.
 
+### terraform apply
+
 If you now run an apply, terraform will generate it's first state file and upload that to S3.  
 
 Specify which plan file you want to apply to ensure no surprise changes are landed.  
@@ -138,4 +159,8 @@ $ ave mft -- terraform apply plan.out
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 ```
 
-#
+## Install and set up terraform landscape
+
+[Terraform landscape](https://github.com/coinbase/terraform-landscape) cleans up the output of a terraform plan.  
+
+This is particularly useful when checking the diff between IAM policy documents. Terraform is notoriously bad at formatting these in a human-readable way. Landscape will fix that for you and highlight specific changes and hide anything that isn't changing allowing you to catch unexpected changes before they're applied.
