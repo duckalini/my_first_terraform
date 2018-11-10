@@ -28,6 +28,7 @@ data "aws_iam_policy_document" "all_users" {
     effect = "Allow"
 
     actions = [
+      "iam:ListMFADevices",
       "iam:CreateVirtualMFADevice",
       "iam:EnableMFADevice",
       "iam:ResyncMFADevice",
@@ -35,14 +36,17 @@ data "aws_iam_policy_document" "all_users" {
     ]
 
     resources = [
-      "arn:aws:iam::account-id-without-hyphens:mfa/$${aws:username}",
-      "arn:aws:iam::account-id-without-hyphens:user/$${aws:username}",
+      "arn:aws:iam::${local.admin_account_id}:mfa/$${aws:username}",
+      "arn:aws:iam::${local.admin_account_id}:user/$${aws:username}",
     ]
   }
 
   statement {
     effect    = "Allow"
-    actions   = ["iam:GetAccountPasswordPolicy"]
+    actions   = [
+      "iam:GetAccountPasswordPolicy",
+      "iam:ListUsers",
+    ]
     resources = ["*"]
   }
 }
