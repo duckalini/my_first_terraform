@@ -8,40 +8,45 @@ resource "aws_sns_topic_policy" "shared_accounts" {
 }
 
 data "aws_iam_policy_document" "sns_cross_account" {
-
   statement {
-    actions = [
-      "SNS:Publish",
-    ]
-
+    sid = "AllowLocalLambdaToSubscribeToTopic"
     effect = "Allow"
+    actions = [
+        "sns:Subscribe",
+        "sns:Receive",
+    ]
 
     principals {
       type        = "AWS"
       identifiers = [
         "arn:aws:iam::${local.admin_account_id}:root",
-        "arn:aws:iam::${local.test_account_id}:root",
       ]
     }
-
-    resources = [
-      "${aws_sns_topic.slack_notification.arn}",
-    ]
+    resources = ["${aws_sns_topic.slack_notification.arn}"]
   }
 
+  // https://forums.aws.amazon.com/thread.jspa?threadID=229533
   statement {
+    sid = "AllowCloudWatchAlarmsToPublish"
+    effect = "Allow"
     actions = [
       "SNS:Publish",
     ]
 
-    effect = "Allow"
-
     principals {
       type        = "AWS"
       identifiers = [
-        "arn:aws:iam::${local.test_account_id}:role/aws-service-role/cloudwatch.amazonaws.com/*",
-        "arn:aws:iam::${local.admin_account_id}:role/aws-service-role/cloudwatch.amazonaws.com/*",
+        "*"
       ]
+    }
+
+    condition {
+      test = "StringEquals"
+      values = [
+        "${local.admin_account_id}",
+        "${local.test_account_id}",
+      ]
+      variable = "AWS:SourceOwner"
     }
 
     resources = [
