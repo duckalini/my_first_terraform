@@ -55,11 +55,16 @@ module "iam-roles" {
 
 // Create a lambda to post messages to slack
 module "slack" {
-  source               = "../../modules/slack"
-  lambda_function_name = "slack_notification"
-  slack_channel        = "#devops"
-  slack_emoji          = ":yells:"
-  slack_username       = "AWS Cloud Bot"
+  source                     = "../../modules/slack"
+  lambda_function_name       = "slack_notification"
+  slack_channel              = "#devops"
+  slack_emoji                = ":yells:"
+  slack_username             = "AWS Cloud Bot"
+  slack_webhook_url_ssm_path = "/${local.environment}/lambda/slack_webhook_url"
+}
 
-  slack_webhook_url_ssm_path    = "/${local.environment}/lambda/slack_webhook_url"
+module "alarms" {
+  source                  = "../../modules/alarms"
+  environment             = "${local.environment}"
+  notify_slack_topic_arn  = "arn:aws:sns:us-west-2:867697617212:slack_notification"
 }

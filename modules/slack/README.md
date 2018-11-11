@@ -9,6 +9,10 @@ Login to the AWS console and navigate to EC2. Down the bottom left of the screen
 Create a secure string Parameter which contains your Slack Webhook. This encrypts your webhook using KMS so that it is never stored in plaintext in AWS.
 Use path based notation for your Parameter name i.e. `/$environment/lambda/slack_webhook_url`. You will need to pass this in as a variable to this module. Path based names allow you to apply granular permissions for who can access parameter store entries.
 
+## To add alarms
+
+Go to the `alarms` module and follow the existing template. The alarm that is currently provisioned is likely to fire once per day.
+
 ## Usage
 This will list off any inputs that are required and whether or not they have a default variable. 
 

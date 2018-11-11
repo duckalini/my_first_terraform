@@ -1,5 +1,5 @@
 
-output "this_slack_topic_arn" {
+output "notify_slack_topic_arn" {
   description = "The ARN of the SNS topic from which messages will be sent to Slack"
   value       = "${aws_sns_topic.slack_notification.arn}"
 }
