@@ -164,3 +164,5 @@ Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 [Terraform landscape](https://github.com/coinbase/terraform-landscape) cleans up the output of a terraform plan.  
 
 This is particularly useful when checking the diff between IAM policy documents. Terraform is notoriously bad at formatting these in a human-readable way. Landscape will fix that for you and highlight specific changes and hide anything that isn't changing allowing you to catch unexpected changes before they're applied.
+
+Use `terraform plan -out=plan.out | tee /dev/tty | landscape` to pass plan files to landscape for formatting.
