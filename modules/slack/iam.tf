@@ -30,6 +30,18 @@ data "aws_iam_policy_document" "lambda_basic" {
     effect = "Allow"
 
     actions = [
+      "sns:Subscribe",
+      "sns:ListSubscriptionsByTopic",
+      "sns:Receive",
+    ]
+
+    resources = ["${aws_sns_topic.slack_notification.arn}"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
     "ssm:GetParameter",
     "ssm:GetParameters",
     "ssm:GetParametersByPath",
@@ -39,8 +51,6 @@ data "aws_iam_policy_document" "lambda_basic" {
       "arn:aws:ssm:us-west-2:${data.aws_caller_identity.current.account_id}:parameter${var.slack_webhook_url_ssm_path}"
     ]
   }
-
-  // need to add KMS decrypt permissions
 }
 
 resource "aws_iam_role" "slack_lambda" {

@@ -28,6 +28,26 @@ data "aws_iam_policy_document" "sns_cross_account" {
       "${aws_sns_topic.slack_notification.arn}",
     ]
   }
+
+  statement {
+    actions = [
+      "SNS:Publish",
+    ]
+
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = [
+        "arn:aws:iam::${local.test_account_id}:role/aws-service-role/cloudwatch.amazonaws.com/*",
+        "arn:aws:iam::${local.admin_account_id}:role/aws-service-role/cloudwatch.amazonaws.com/*",
+      ]
+    }
+
+    resources = [
+      "${aws_sns_topic.slack_notification.arn}",
+    ]
+  }
 }
 
 resource "aws_sns_topic_subscription" "sns_notify_slack" {
