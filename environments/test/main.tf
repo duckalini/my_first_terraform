@@ -30,3 +30,10 @@ module "cloudtrail" {
 module "iam-roles" {
   source = "../../modules/iam-all-accounts"
 }
+
+// Create alarms and send notifications to slack lambda in admin account
+module "alarms" {
+  source                  = "../../modules/alarms"
+  environment             = "${local.environment}"
+  notify_slack_topic_arn  = "arn:aws:sns:us-west-2:867697617212:slack_notification"
+}
