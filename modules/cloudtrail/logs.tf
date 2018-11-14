@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "cloudtrail_logs" {
     enabled = true
   }
 
-  // retetion policy 30 days
+  // retention policy 30 days
   lifecycle_rule {
     enabled = true
 
