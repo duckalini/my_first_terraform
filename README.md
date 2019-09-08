@@ -1,7 +1,7 @@
 # my-first-terraform  
 
 This project will help show you how to set up terraform for your aws environment in a scaleable and maintainable way.  
-It was presented at Purplecon 2018, on Thursday November 15th. Hopefully there will be a recording soon that we can link to.
+It was presented at Purplecon 2018, on Thursday November 15th and you can watch the recording of that [on YouTube](https://www.youtube.com/watch?v=syK_Y9gQQu4).
 
 This project assumes that you know what terraform is and why you should use it, but nothing else. The talk referenced above explains a little bit about:
 * The benefits of using terraform for your infrastructure as code
